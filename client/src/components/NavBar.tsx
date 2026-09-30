@@ -10,8 +10,8 @@ export default function NavBar() {
   const logout = useAuthStore((state) => state.logout);
   const router = useRouter();
 
-  async function handleLogout() {
-    await logout();
+  function handleLogout() {
+    void logout();
     router.push("/login");
   }
 
@@ -20,7 +20,7 @@ export default function NavBar() {
       <Link href="/" className="cursor-pointer border p-2 rounded-md">
         Home
       </Link>
-      {status === "authenticated" && user ? (
+      {user ? (
         <>
           <span className="text-sm font-medium">{user.name}</span>
           <Link href="/change-password" className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer">

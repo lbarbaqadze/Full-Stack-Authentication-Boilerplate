@@ -61,7 +61,7 @@ export default function ChangePasswordPage() {
     }
   }
 
-  if (status !== "authenticated" || !user) {
+  if (!user) {
     return <LoadingOverlay />;
   }
 

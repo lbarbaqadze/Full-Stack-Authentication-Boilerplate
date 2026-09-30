@@ -78,7 +78,6 @@ export const useAuthStore = create<AuthState>()(
       },
 
       checkSession: async () => {
-        set({ status: "loading" });
         try {
           const { data } = await api.get("/api/auth/secret-data");
           set({ user: toUser(data.data.user), status: "authenticated" });
@@ -126,16 +125,24 @@ export const useAuthStore = create<AuthState>()(
       },
 
       logout: async () => {
+        set({ user: null, status: "anonymous" });
         try {
           await api.post("/api/auth/logout");
-        } finally {
-          set({ user: null, status: "anonymous" });
+        } catch {
+          return;
         }
       },
     }),
     {
       name: "auth",
       partialize: (state) => ({ user: state.user }),
+      onRehydrateStorage: () => (state) => {
+        useAuthStore.setState(
+          state?.user
+            ? { status: "authenticated" }
+            : { status: "anonymous" }
+        );
+      },
     }
   )
 );
