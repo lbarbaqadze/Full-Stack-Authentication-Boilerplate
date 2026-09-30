@@ -1,0 +1,81 @@
+
+# ── Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# ── Environment Variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.*.local
+*.env
+
+# ── Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ── Process
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# ── Build Output
+dist/
+build/
+out/
+
+# ── Coverage & Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# ── Temporary Files
+tmp/
+temp/
+.tmp/
+.cache/
+
+# ── Security
+*.pem
+*.key
+*.cert
+*.p12
+*.pfx
+
+# ── Uploads / User Content
+uploads/
+public/uploads/
+
+# ── Database
+*.sqlite
+*.sqlite3
+*.db
+
+# ── OS Metadata
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ── IDE / Editor
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
