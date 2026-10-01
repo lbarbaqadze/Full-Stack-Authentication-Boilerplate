@@ -23,7 +23,7 @@ const cookieOptions = () => {
     return {
         httpOnly: true,
         secure: production,
-        sameSite: production ? 'none' : 'strict',
+        sameSite: 'lax',
         path: "/"
     }
 }

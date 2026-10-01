@@ -89,6 +89,6 @@ EMAIL_PASSWORD=your_mailtrap_password
 2. Create a new project
 3. Enable Google+ API
 4. Create OAuth 2.0 credentials
-5. Add `http://localhost:3000` to Authorized JavaScript origins
-6. Add `http://localhost:3000/api/auth/google/callback` to Authorized redirect URIs
+5. Add `http://localhost:3001` to Authorized JavaScript origins
+6. Add `http://localhost:3001/api/auth/google/callback` to Authorized redirect URIs
 7. Copy Client ID and Client Secret to your `.env` file

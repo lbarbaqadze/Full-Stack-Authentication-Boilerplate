@@ -55,7 +55,7 @@ export default function RegisterPage() {
             </div>
 
             <a
-              href={`${process.env.NEXT_PUBLIC_API_URL}/api/auth/google`}
+              href="/api/auth/google"
               className="flex h-12 w-full items-center justify-center gap-3 bg-neutral-50 border border-neutral-100 rounded-xl text-sm font-medium hover:bg-neutral-100 transition-all active:scale-[0.98]"
             >
               <svg width="18" height="18" viewBox="0 0 24 24">

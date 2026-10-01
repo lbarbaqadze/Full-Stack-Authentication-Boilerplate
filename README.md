@@ -4,7 +4,7 @@ This is an authentication boilerplate for new applications. Copy it when you sta
 
 Change the design, then keep building the rest of the app yourself. The auth pages are a finished slice: update their Tailwind markup and leave the `useAuthStore` calls as they are. Home and the navbar only show whether someone is signed in. Every other page — products, dashboard, settings, whatever the app needs — is yours to add on top.
 
-The API lives in `server`. The Next.js client lives in `client`. Sessions use httpOnly cookies. The browser never stores access or refresh tokens.
+The API lives in `server`. The Next.js client lives in `client`. The browser only talks to the Next app. Next forwards `/api` to the API, so the auth cookies stay on the client address. The browser never stores access or refresh tokens.
 
 ## Tech stack
 
@@ -80,29 +80,24 @@ For development email, use a [Mailtrap](https://mailtrap.io) inbox and put its S
 For Google, create an OAuth client in [Google Cloud Console](https://console.cloud.google.com). Authorized redirect URI:
 
 ```text
-http://localhost:3000/api/auth/google/callback
+http://localhost:3001/api/auth/google/callback
 ```
 
-Put the client id, secret, and that callback URL in `.env`.
+Put the client id, secret, and that callback URL in `.env`. The callback is the Next app, not the API port. Next forwards it to the API, and the browser stores the cookies on port 3001.
 
 **3. Client (port 3001)**
 
 ```bash
 cd client
 npm install
-```
-
-Create `client/.env`:
-
-```env
-NEXT_PUBLIC_API_URL=http://localhost:3000
-```
-
-```bash
 npm run dev -- -p 3001
 ```
 
-Open `http://localhost:3001`. The API stays on port 3000. Next cannot use 3000 at the same time.
+Open `http://localhost:3001`. The API stays on port 3000. Next cannot use 3000 at the same time. Requests to `/api` are proxied to `http://localhost:3000`. Set `API_URL` only if the API is somewhere else.
+
+## Deploy on Vercel as two projects
+
+Use one Git repository and two Vercel projects. The database stays on TiDB Cloud. Vercel does not run `server.listen()`, so `server/vercel.json` runs the Express app as a function.
 
 ## Using this in another project
 
