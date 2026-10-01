@@ -6,6 +6,37 @@ Change the design, then keep building the rest of the app yourself. The auth pag
 
 The API lives in `server`. The Next.js client lives in `client`. Sessions use httpOnly cookies. The browser never stores access or refresh tokens.
 
+## Tech stack
+
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
+![Zustand](https://img.shields.io/badge/Zustand-5-443E38)
+![Axios](https://img.shields.io/badge/Axios-5A29E4?logo=axios&logoColor=white)
+![React Hook Form](https://img.shields.io/badge/React_Hook_Form-EC5990?logo=reacthookform&logoColor=white)
+![Express](https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-httpOnly_cookies-000000?logo=jsonwebtokens)
+
+| Client | Server |
+|---|---|
+| Next.js 16, React 19, TypeScript | Express 5 |
+| Tailwind CSS 4 | MySQL (`mysql2`) |
+| Zustand | JWT access + httpOnly refresh cookie |
+| Axios | bcrypt, Joi, Nodemailer |
+| React Hook Form | Passport Google OAuth, express-rate-limit |
+
+## Features
+
+- JWT access token and an httpOnly refresh token. The browser never stores either token. Refresh tokens are saved in MySQL and rotated on each refresh.
+- Email verification code, forgot password, and change password. Codes go out through Nodemailer (Mailtrap in development).
+- Google sign-in. The account is created as already verified.
+- Route protection on the API, and an Axios response interceptor that refreshes the session on 401 and retries the request.
+- Auth state in Zustand (`useAuthStore`), including session check, sign-in, and logout.
+- Client forms with React Hook Form. Request bodies are validated with Joi.
+- Passwords hashed with bcrypt. OTP and sign-in attempts are rate limited.
+
 ## Pages
 
 | Page | What it does | API |
@@ -72,26 +103,6 @@ npm run dev -- -p 3001
 ```
 
 Open `http://localhost:3001`. The API stays on port 3000. Next cannot use 3000 at the same time.
-
-## Deploy on Vercel as two projects
-
-Use one Git repository and two Vercel projects. The database stays on TiDB Cloud. Vercel does not run `server.listen()`, so `server/vercel.json` runs the Express app as a function. In production the auth cookies are `SameSite=None` and `Secure`, because the client and the API are different sites.
-
-**API project**
-
-- Root Directory: `server`
-- Environment variables: everything in `server/.env`, plus the live values below
-- `CLIENT_URL` = the client URL, for example `https://your-app.vercel.app`
-- `GOOGLE_CALLBACK_URL` = `https://your-api.vercel.app/api/auth/google/callback`
-- Add that same callback in Google Cloud Console
-
-**Client project**
-
-- Root Directory: `client`
-- Framework: Next.js
-- `NEXT_PUBLIC_API_URL` = the API URL with no trailing slash, for example `https://your-api.vercel.app`
-
-Set `NEXT_PUBLIC_API_URL` before the client build. Next bakes it into the browser bundle.
 
 ## Using this in another project
 
