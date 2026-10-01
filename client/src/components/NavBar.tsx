@@ -6,7 +6,6 @@ import { useAuthStore } from "@/store/useAuthStore";
 
 export default function NavBar() {
   const user = useAuthStore((state) => state.user);
-  const status = useAuthStore((state) => state.status);
   const logout = useAuthStore((state) => state.logout);
   const router = useRouter();
 
@@ -34,7 +33,7 @@ export default function NavBar() {
             Log Out
           </button>
         </>
-      ) : status === "anonymous" ? (
+      ) : (
         <>
           <Link href="/login" className="bg-blue-500 text-white px-4 py-2 rounded-md">
             Log In
@@ -43,7 +42,7 @@ export default function NavBar() {
             Register
           </Link>
         </>
-      ) : null}
+      )}
     </div>
   );
 }

@@ -136,12 +136,13 @@ export const useAuthStore = create<AuthState>()(
     {
       name: "auth",
       partialize: (state) => ({ user: state.user }),
-      onRehydrateStorage: () => (state) => {
-        useAuthStore.setState(
-          state?.user
-            ? { status: "authenticated" }
-            : { status: "anonymous" }
-        );
+      merge: (persistedState, currentState) => {
+        const saved = persistedState as { user?: User | null } | undefined;
+        return {
+          ...currentState,
+          ...saved,
+          status: saved?.user ? "authenticated" : "anonymous",
+        };
       },
     }
   )
